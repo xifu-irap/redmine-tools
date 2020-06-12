@@ -116,7 +116,7 @@ redmine.wiki_page.create(
                         project_id='DRE',
                         title=testname,
                         text=text_template,
-                        parent_title='03 Tests',
+                        parent_title='Prototype DACs test campaign',
                         comments='no comment',
                         uploads=uploadlist
                         )

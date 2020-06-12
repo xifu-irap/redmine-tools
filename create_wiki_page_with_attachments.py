@@ -5,15 +5,14 @@
 #        Odile Coeur-Joly, Toulouse, France
 #
 """
-This part tests Redmine server access.
+Setup Redmine server access.
 """
-
 # To disable Insecure Request Warnings, in case of requests={'verify': False} is used
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 """
-This part replaces the wiki text in the TEMPLATE pages.
+Launches a basic GUI to get user inputs.
 """
 # Dialog boxes to get the test parameters
 import easygui
@@ -24,19 +23,27 @@ if testname is None or len(str(testname)) == 0:
     exit()
 
 config = easygui.enterbox("Configuration number ?", default="071")
-operator = easygui.choicebox(msg = "Operator's name", title = "Hello", 
+operator = easygui.choicebox(msg = "Operator's name", title = "Hello Operator", 
                              choices = ['Bernard','Christophe','David','Laurent','Odile','Wilfried','Yann'], preselect=4)
 
 easygui.msgbox('Test directory = ' + testname + '\n' + 
                'Configuration number = ' + config + '\n' + 
                'Operator name = ' + str(operator))
 
-# 1. Connect to the dummy site bitnami (OCJ)
+"""
+Redmine access to Redmine servers : please update the "key" parameter with your private access API key.
+"""
+# 1a. = Connect to the dummy site bitnami (OCJ)
+# 1b. = Connect to the xifu-redmine site
 from redminelib import Redmine
-redmine = Redmine('http://127.0.0.1:82/redmine', key = '5dea73303c7b0899ea3af513df628382043375f5', requests={'verify': False})
+# 1a. redmine = Redmine('http://127.0.0.1:82/redmine', key = 'KEY', requests={'verify': False})
+# 1b.
+redmine = Redmine('https://xifu-redmine.irap.omp.eu', key = 'KEY', requests={'verify': False})
 
 # 1. Get the Prototype_DACs_test_campaign_TEMPLATE wiki page text
-wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='test_ocj')    
+# 1a. wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='test_ocj')    
+# 1b.
+wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='DRE')    
 text_template = wiki_page.text
 
 # 2. Replace the wiki text
@@ -52,7 +59,9 @@ text_template = text_template.replace('OPERATOR', operator)
 #print("text_template\n", text_template.replace('\r', ''))
 
 # Get the Text of the DAC current DAC campaign page
-wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='test_ocj')    
+# 1a. wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='test_ocj')    
+# 1b.
+wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='DRE')    
 text_dac_campaign = wiki_page.text
 
 # Replace the wiki text
@@ -65,17 +74,19 @@ This part tests howto update the text of a Redmine Wiki page
 """
 redmine.wiki_page.update(
                         'Prototype_DACs_test_campaign',
-                        project_id='test_ocj',
+                        project_id='DRE',
                         title='Prototype_DACs_test_campaign',
                         text=text_dac_campaign
                         )
-print("Page DAC campaign updated...")
+print("Page Prototype DACs test campaign updated...")
 
 """
 This part tests howto create a DAC Test report wiki page, with attachment files
 """
 # 1. Get the Text of the DAC_Test_Report_TEMPLATE Wiki page
-wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='test_ocj')    
+# 1a. wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='test_ocj')    
+# 1b.
+wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='DRE')    
 text_template = wiki_page.text
 
 # Replace the wiki text
@@ -102,7 +113,7 @@ for fi in filelist:
     uploadlist.append(uploadict)
 
 redmine.wiki_page.create(
-                        project_id='test_ocj',
+                        project_id='DRE',
                         title=testname,
                         text=text_template,
                         parent_title='03 Tests',
@@ -110,4 +121,4 @@ redmine.wiki_page.create(
                         uploads=uploadlist
                         )
 
-print("Page Test Report created...")
+print("Page DACs test report created...")

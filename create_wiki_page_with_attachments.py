@@ -38,12 +38,12 @@ Redmine access to Redmine servers : please update the "key" parameter with your 
 from redminelib import Redmine
 # 1a. redmine = Redmine('http://127.0.0.1:82/redmine', key = 'KEY', requests={'verify': False})
 # 1b.
-redmine = Redmine('https://xifu-redmine.irap.omp.eu', key = 'KEY', requests={'verify': False})
+redmine = Redmine('https://xifu-redmine.irap.omp.eu', key = '445795a91e0c88948dc333817d8e59492fc0a4bc', requests={'verify': False})
 
 # 1. Get the Prototype_DACs_test_campaign_TEMPLATE wiki page text
 # 1a. wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='test_ocj')    
 # 1b.
-wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='DRE_PROTO_FDM')    
+wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='DRE')    
 text_template = wiki_page.text
 
 # 2. Replace the wiki text
@@ -61,7 +61,7 @@ text_template = text_template.replace('OPERATOR', operator)
 # Get the Text of the DAC current DAC campaign page
 # 1a. wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='test_ocj')    
 # 1b.
-wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='DRE_PROTO_FDM')    
+wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign', project_id='DRE')    
 text_dac_campaign = wiki_page.text
 
 # Replace the wiki text
@@ -74,7 +74,7 @@ This part tests howto update the text of a Redmine Wiki page
 """
 redmine.wiki_page.update(
                         'Prototype_DACs_test_campaign',
-                        project_id='DRE_PROTO_FDM',
+                        project_id='DRE',
                         title='Prototype_DACs_test_campaign',
                         text=text_dac_campaign
                         )
@@ -86,7 +86,7 @@ This part tests howto create a DAC Test report wiki page, with attachment files
 # 1. Get the Text of the DAC_Test_Report_TEMPLATE Wiki page
 # 1a. wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='test_ocj')    
 # 1b.
-wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='DRE_PROTO_FDM')    
+wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='DRE')    
 text_template = wiki_page.text
 
 # Replace the wiki text
@@ -113,7 +113,7 @@ for fi in filelist:
     uploadlist.append(uploadict)
 
 redmine.wiki_page.create(
-                        project_id='DRE_PROTO_FDM',
+                        project_id='DRE',
                         title=testname,
                         text=text_template,
                         parent_title='Prototype DACs test campaign',

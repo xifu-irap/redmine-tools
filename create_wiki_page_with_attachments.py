@@ -17,6 +17,8 @@ Launches a basic GUI to get user inputs.
 # Dialog boxes to get the test parameters
 import easygui
 
+API_key = easygui.enterbox("KEY ? (copy/paste from My Account")
+
 testname = easygui.enterbox("Test directory ? (copy/paste from D:\DRE_TESTS\PROTO)", default="20200226_135406__DACBIAS-10_DACFBCK-11_pix-10_fast")
 if testname is None or len(str(testname)) == 0:
     easygui.msgbox('The program will end. Please restart and enter a test name')
@@ -38,7 +40,7 @@ Redmine access to Redmine servers : please update the "key" parameter with your 
 from redminelib import Redmine
 # 1a. redmine = Redmine('http://127.0.0.1:82/redmine', key = 'KEY', requests={'verify': False})
 # 1b.
-redmine = Redmine('https://xifu-redmine.irap.omp.eu', key = '445795a91e0c88948dc333817d8e59492fc0a4bc', requests={'verify': False})
+redmine = Redmine('https://xifu-redmine.irap.omp.eu', key = API_key, requests={'verify': False})
 
 # 1. Get the Prototype_DACs_test_campaign_TEMPLATE wiki page text
 # 1a. wiki_page = redmine.wiki_page.get('Prototype_DACs_test_campaign_TEMPLATE', project_id='test_ocj')    
@@ -90,7 +92,13 @@ wiki_page = redmine.wiki_page.get('DACs_test_report_TEMPLATE', project_id='DRE')
 text_template = wiki_page.text
 
 # Replace the wiki text
-title = testname[0:15] + "  " + testname[17:38] + " " + testname[39:]
+table_split = testname.split('_')
+hour = table_split[0] + '_' + table_split[1]
+dacs = table_split[3] + '_' + table_split[4]
+pixel = table_split[5].split('-')[0] + 'el'
+pixel_num = table_split[5].split('-')[1]
+title = hour + ' ' + dacs + ' ' + pixel + ' ' + pixel_num
+
 text_template = text_template.replace('TEST_REPORT_TITLE', title)
 text_template = text_template.replace('TEST_NAME', testname)
 text_template = text_template.replace('TEST_CONFIG_ID', config)

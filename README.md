@@ -4,9 +4,10 @@
 ## Requirements
 - pip install python-redmine
 - pip install easygui
-- create a personal access API to the Redmine site
+- generate a personal API access Key to the Redmine site, from your personal Account
 
-## Create_wiki_page_with_attachments
-Hard-coded for the FDM DACs test campaign : to generate automatically a Wiki test page for the xifu-redmine/DRE project.
+#### Create_wiki_page_with_attachments
+Script to read, update, or create a Redmine Wiki page.
+Hard-coded for the FDM DACs test campaign to generate automatically a Wiki test page.
 
 

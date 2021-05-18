@@ -1,7 +1,7 @@
 # redmine
 *Set of short examples to illustrate howto to read, update, or create a Redmine Wiki page.*
 
-## Requirements
+## Pre-requisites
 - pip install python-redmine
 - pip install easygui
 - generate a personal API access Key to the Redmine site, from your personal Account
